@@ -30,5 +30,7 @@ jobs:
       working-directory: ./Solution1/ClassLibrary1
     
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test 
       working-directory: ./Solution1/UnitTestProject
+      # --no-build --verbosity normal
+      
