@@ -1,36 +1,36 @@
-name: .NET
+name: CI
 
-    
 on:
   push:
-    branches: [ "main" ]
+    branches:
+    - main
   pull_request:
-    branches: [ "main" ]
-
-
+    branches:
+    - main
     
 jobs:
   build:
 
+    env:
+      BUILD_CONFIG: 'Release'
+      SOLUTION: 'Solution1/UnitTest.sln'
+
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
+
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
-    
+        dotnet-version: 6.x
+
+
     - name: Restore dependencies
-      run: dotnet restore
-      working-directory: ./Solution1/ClassLibrary1
-      
+      run: dotnet restore $SOLUTION
+
     - name: Build
-      run: dotnet build --no-restore
-      working-directory: ./Solution1/ClassLibrary1
-    
-    - name: Test
-      run: dotnet test 
-      working-directory: ./Solution1/UnitTestProject
-      # --no-build --verbosity normal
+      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG
       
+    - name: Test
+      run: dotnet test $SOLUTION --configuration $BUILD_CONFIG
